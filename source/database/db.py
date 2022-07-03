@@ -1,15 +1,13 @@
-import psycopg2 
-from psycopg2 import DatabaseError
-from decouple import config
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-def get_connection():
-    try:
-        return psycopg2.connect(
-            host= config('PGSQL_HOST'),
-            user= config('PGSQL_USER'),
-            password= config('PGSQL_PASSWORD'),
-            database= config('PGSQL_DATABASE'),
-        )
-    except DatabaseError as ex:
-        raise ex
+engine = create_engine('postgresql://postgres:ale@localhost:5432/Practicas_Auth')
+db_session = scoped_session(sessionmaker(autocommit=False,
+                                         autoflush=False,
+                                         bind=engine))
+Base = declarative_base()
+Base.query = db_session.query_property()
 
+def init_db():
+    Base.metadata.create_all(engine)

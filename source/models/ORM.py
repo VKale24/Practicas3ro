@@ -2,7 +2,7 @@
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from source.models.CompanyModelDB import CompanyBase
+from source.models.CompanyModel import CompanyBase
 
 
 def orm_create_company(session: Session, company: CompanyBase) -> CompanyBase:
