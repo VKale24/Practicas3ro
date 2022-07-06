@@ -43,11 +43,9 @@ class CompanyService():
         # Draw rectangle around the faces and crop the faces
         for (x, y, w, h) in faces1:
 
-            # cv2.rectangle(image1, (x, y), (x+w, y+h), (0, 0, 255), 2)
             cv2.rectangle(image1, (x, y), (x+w, y+h), (0, 0, 0), 5)
 
             faces1 = image1[y:y + h, x:x + w]
-            # cv2.imshow("faces1", faces1)
             cv2.waitKey()
 
         for (x, y, w, h) in faces2:

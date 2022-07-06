@@ -53,15 +53,20 @@ def check_coincidence_images():
 
     # check if the post request has the file part
     if 'file' not in request.files:
-        return "File no part"
+        return jsonify({'message': "Not Files Found", 'statusCode': 404})
 
     files = request.files.getlist("file")
-
+    countFiles = 0
     for file in files:
+        countFiles = countFiles+1
         if file and allowed_file(file.filename):
             print("File allowed")
         else:
-            raise Exception("File not allowed")
+            return jsonify({'message': "File Not Allowed", 'statusCode': 410})
+    if countFiles < 2:
+        return jsonify({'message': "Insufficient Files", 'statusCode': 407})
+    if countFiles > 2:
+        return jsonify({'message': "Exceeded Files", 'statusCode': 408})
 
     result = CompanyService.check_coincidence(files)
     statusCode = result['statusCode']
